@@ -1,5 +1,5 @@
-function test (testa) {
-  return { a: testa }
+function test (variable) {
+  return { a: variable }
 }
 
 test()
