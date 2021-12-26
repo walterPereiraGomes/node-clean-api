@@ -53,6 +53,7 @@ const makeSut = () => {
 const makeEmailValidator = () => {
   class EmailValidatorSpy {
     isValid (email) {
+      this.email = email
       return this.isEmailValid
     }
   }
@@ -60,6 +61,16 @@ const makeEmailValidator = () => {
   const emailValidatorSpy = new EmailValidatorSpy()
   emailValidatorSpy.isEmailValid = true
   return emailValidatorSpy
+}
+
+const makeEmailValidatorWithError = () => {
+  class EmailValidator {
+    isValid () {
+      throw new Error()
+    }
+  }
+
+  return new EmailValidator()
 }
 
 describe('Login Router', () => {
@@ -221,7 +232,7 @@ describe('Login Router', () => {
     expect(httpResponse.body).toEqual(new ServerError())
   })
 
-  test.only('Should return 500 if no EmailValidator has no isValid method', async () => {
+  test('Should return 500 if no EmailValidator has no isValid method', async () => {
     const authUseCaseSpy = makeAuthUseCase()
     const sut = new LoginRouter(authUseCaseSpy, {})
     const httpRequest = {
@@ -233,5 +244,32 @@ describe('Login Router', () => {
     const httpResponse = await sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
+  })
+
+  test('Should return 500 if emailValidator throws', async () => {
+    const authUseCaseSpy = makeAuthUseCase()
+    const emailValidatorSpy = makeEmailValidatorWithError()
+    const sut = new LoginRouter(authUseCaseSpy, emailValidatorSpy)
+    const httpRequest = {
+      body: {
+        email: 'any_email@email.com',
+        password: '123456'
+      }
+    }
+    const httpResponse = await sut.route(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
+  })
+
+  test('Should call EmailValidator with correct email', async () => {
+    const { sut, emailValidatorSpy } = makeSut()
+    const httpRequest = {
+      body: {
+        email: 'any_email@email.com',
+        password: '123456'
+      }
+    }
+    await sut.route(httpRequest)
+    expect(emailValidatorSpy.email).toBe(httpRequest.body.email)
   })
 })
