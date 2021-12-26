@@ -32,12 +32,7 @@ module.exports = class LoginRouter {
         return HttpResponse.unauthorizedError()
       }
 
-      return {
-        ...HttpResponse.success(),
-        body: {
-          accessToken
-        }
-      }
+      return HttpResponse.success({ accessToken })
     } catch (error) {
       return HttpResponse.serverError()
     }
