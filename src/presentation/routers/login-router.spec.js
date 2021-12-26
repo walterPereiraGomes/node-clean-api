@@ -13,7 +13,7 @@ const makeAuthUseCase = () => {
     async auth (email, password) {
       this.email = email
       this.password = password
-      await timeout(1000)
+      await timeout(300)
       return this.accessToken
     }
   }
@@ -177,4 +177,17 @@ describe('Login Router', () => {
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
   })
+
+  // test('Should return 400 if an invalid email is provided', async () => {
+  //   const { sut } = makeSut()
+  //   const httpRequest = {
+  //     body: {
+  //       email: 'any_email@eu.com',
+  //       password: 'any_password'
+  //     }
+  //   }
+  //   const httpResponse = await sut.route(httpRequest)
+  //   expect(httpResponse.statusCode).toBe(400)
+  //   expect(httpResponse.body).toEqual(new InvalidParamError('password'))
+  // })
 })
