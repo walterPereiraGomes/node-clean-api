@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "prepare": "husky install"
+    "test": "jest --silent --noStackTrace",
+    "prepare": "husky install",
+    "test:ci": "jest --coverage"
   },
   "standard": {
     "env": ["jest"]

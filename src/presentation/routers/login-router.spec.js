@@ -82,7 +82,7 @@ describe('Login Router', () => {
       }
     }
     const httpResponse = await sut.route(httpRequest)
-    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.statusCode).toBe(401)
     expect(httpResponse.body).toEqual(new MissingParamError('email'))
   })
 
