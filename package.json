@@ -4,12 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --silent --noStackTrace",
+    "test": "jest --silent --colors --noStackTrace",
+    "test:unit": "npm test --",
+    "test:staged": "npm test --",
     "prepare": "husky install",
     "test:ci": "jest --coverage --silent --noStackTrace"
   },
   "standard": {
-    "env": ["jest"]
+    "env": [
+      "jest"
+    ]
   },
   "lint-staged": {
     "*.js": [
