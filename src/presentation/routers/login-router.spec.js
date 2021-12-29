@@ -1,8 +1,5 @@
 const LoginRouter = require('./login-router')
-const MissingParamError = require('../helpers/missing-param-error')
-const UnauthorizedError = require('../helpers/unauthorized-error')
-const ServerError = require('../helpers/server-error')
-const InvalidParamError = require('../helpers/invalid-param-error')
+const { InvalidParamError, ServerError, MissingParamError, UnauthorizedError } = require('../errors')
 
 const timeout = (ms) => {
   return new Promise(resolve => setTimeout(resolve, ms))
