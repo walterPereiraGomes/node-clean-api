@@ -38,6 +38,7 @@
     "standard": "^16.0.4"
   },
   "dependencies": {
-    "lint-staged": "^12.1.2"
+    "lint-staged": "^12.1.2",
+    "validator": "^13.7.0"
   }
 }
