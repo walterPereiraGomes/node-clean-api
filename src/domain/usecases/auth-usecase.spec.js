@@ -98,7 +98,6 @@ describe('Auth UseCase', () => {
     const { sut, encrypterSpy } = makeSut()
     encrypterSpy.isValid = false
     const accessToken = await sut.auth('any_email@email.com', 'any_password')
-    console.log('encrypterSpy :>> ', accessToken)
     expect(accessToken).toBeNull()
   })
 
@@ -115,5 +114,13 @@ describe('Auth UseCase', () => {
 
     await sut.auth('any_email@email.com', 'valid_password')
     expect(tokenGeneratorSpy.userId).toBe(loadUserByEmailRepositorySpy.user.id)
+  })
+
+  test('Should return an accessToken with correct credentials are provided', async () => {
+    const { sut, tokenGeneratorSpy } = makeSut()
+
+    const accessToken = await sut.auth('any_email@email.com', 'valid_password')
+    expect(accessToken).toBe(tokenGeneratorSpy.accessToken)
+    expect(accessToken).toBeTruthy()
   })
 })
