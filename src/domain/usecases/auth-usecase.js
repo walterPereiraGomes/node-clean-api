@@ -20,7 +20,10 @@ module.exports = class AuthUseCase {
       return null
     }
     console.log('user :>> ', user)
-    this.encrypter.compare(password, user.password)
-    return null
+    const isValid = await this.encrypter.compare(password, user.password)
+    if (!isValid) {
+      return null
+    }
+    return isValid
   }
 }
